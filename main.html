@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yu-Gi-Oh! PTCG Banlist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-bottom: 3px solid #c9a227;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        header h1 {
+            font-size: 1.5rem;
+            color: #c9a227;
+            letter-spacing: 1px;
+        }
+        nav a {
+            color: #e6edf3;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+            padding: 0.4rem 0.8rem;
+            /*border-radius: 4px;*/
+            transition: background 0.2s, color 0.2s;
+        }
+        nav a:hover, nav a.active {
+            background: #c9a227;
+            color: #0d1117;
+        }
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        .info {
+            background: #161b22;
+            border: 1px solid #30363d;
+            /*border-radius: 8px;*/
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+        .info strong {
+            color: #c9a227;
+        }
+        section {
+            margin-bottom: 2.5rem;
+        }
+        section h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .forbidden h2 { color: #f85149; border-color: #f85149; }
+        .limited h2 { color: #d29922; border-color: #d29922; }
+        .semi-limited h2 { color: #3fb950; border-color: #3fb950; }
+        .card-list {
+            background: #161b22;
+            border: 1px solid #30363d;
+            /*border-radius: 8px;*/
+            padding: 1.2rem 1.5rem;
+            columns: 3;
+            column-gap: 2rem;
+        }
+        @media (max-width: 900px) {
+            .card-list { columns: 2; }
+        }
+        @media (max-width: 600px) {
+            .card-list { columns: 1; }
+            header { flex-direction: column; text-align: center; }
+            nav a { margin: 0 0.5rem; }
+        }
+        .card-list ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .card-list li {
+            padding: 0.25rem 0;
+            break-inside: avoid;
+            font-size: 0.95rem;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #8b949e;
+            font-size: 0.85rem;
+            border-top: 1px solid #30363d;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Yu-Gi-Oh! PTCG</h1>
+        <nav>
+            <a href="main.html" class="active">Banlist</a>
+            <a href="page2.html">Рапорт</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ==================== FORBIDDEN ==================== -->
+        <section class="forbidden">
+            <h2>🚫 Forbidden <small style="font-size:0.7em;opacity:0.7">(0 копий)</small></h2>
+            <div class="card-list">
+                <ul>
+                    <!-- Monsters -->
+                    <li>Abyss Dweller</li>
+                    <li>Agido the Ancient Sentinel</li>
+                    <li>Apollousa, Bow of the Goddess</li>
+                    <li>Archlord Kristya</li>
+                    <li>Archnemeses Protos</li>
+                    <li>Artifact Mjollnir</li>
+                    <li>Artifact Scythe</li>
+                    <li>Bahamut Shark</li>
+                    <li>Baronne de Fleur</li>
+                    <li>Barrier Statue of the Drought</li>
+                    <li>Barrier Statue of the Inferno</li>
+                    <li>Barrier Statue of the Stormwinds</li>
+                    <li>Barrier Statue of the Torrent</li>
+                    <li>Beatrice, Lady of the Eternal</li>
+                    <li>Blackwing - Gofu the Vague Shadow</li>
+                    <li>Block Dragon</li>
+                    <li>Borreload Savage Dragon</li>
+                    <li>Chaos Ruler, the Chaotic Magical Dragon</li>
+                    <li>Crystron Halqifibrax</li>
+                    <li>Curious, the Lightsworn Dominion</li>
+                    <li>CXyz Gimmick Puppet Fanatix Machinix</li>
+                    <li>Cyber-Stein</li>
+                    <li>Dandylion</li>
+                    <li>Dimension Shifter</li>
+                    <li>Djinn Releaser of Rituals</li>
+                    <li>Eclipse Wyvern</li>
+                    <li>Evilswarm Ouroboros</li>
+                    <li>Fiber Jar</li>
+                    <li>Fishborg Blaster</li>
+                    <li>Fossil Dyna Pachycephalo</li>
+                    <li>Gimmick Puppet Nightmare</li>
+                    <li>Grinder Golem</li>
+                    <li>Guardragon Agarpain</li>
+                    <li>Guardragon Elpy</li>
+                    <li>Heavymetalfoes Electrumite</li>
+                    <li>Herald of the Arc Light</li>
+                    <li>Hot Red Dragon Archfiend King Calamity</li>
+                    <li>Isolde, Two Tales of the Noble Knights</li>
+                    <li>Jowgen the Spiritualist</li>
+                    <li>K9-04 Noroi</li>
+                    <li>Kashtira Arise-Heart</li>
+                    <li>Kelbek the Ancient Vanguard</li>
+                    <li>Kewl Tune Rotary</li>
+                    <li>King of the Feral Imps</li>
+                    <li>Knightmare Goblin</li>
+                    <li>Knightmare Gryphon</li>
+                    <li>Knightmare Mermaid</li>
+                    <li>Lavalval Chain</li>
+                    <li>Level Eater</li>
+                    <li>Link Decoder</li>
+                    <li>Linkross</li>
+                    <li>Magical Scientist</li>
+                    <li>Maliss &lt;Q&gt; White Binder</li>
+                    <li>Maxx "C"</li>
+                    <li>Mecha Phantom Beast Auroradon</li>
+                    <li>Moon of the Closed Heaven</li>
+                    <li>Naturia Rosewhip</li>
+                    <li>Number 16: Shock Master</li>
+                    <li>Number 42: Galaxy Tomahawk</li>
+                    <li>Number 67: Pair-a-Dice Smasher</li>
+                    <li>Number 86: Heroic Champion - Rhongomyniad</li>
+                    <li>Number 89: Diablosis the Mind Hacker</li>
+                    <li>Number 95: Galaxy-Eyes Dark Matter Dragon</li>
+                    <li>Number S0: Utopic ZEXAL</li>
+                    <li>Outer Entity Azathot</li>
+                    <li>Phantasmal Lord Ultimitl Bishbaalkin</li>
+                    <li>Phoenixian Cluster Amaryllis</li>
+                    <li>Prank-Kids Meow-Meow-Mu</li>
+                    <li>Predaplant Verte Anaconda</li>
+                    <li>Protectcode Talker</li>
+                    <li>PSY-Framelord Omega</li>
+                    <li>Reprodocus</li>
+                    <li>Ronintoadin</li>
+                    <li>Simorgh, Bird of Sovereignty</li>
+                    <li>Splash Mage</li>
+                    <li>Spright Elf</li>
+                    <li>SPYRAL Master Plan</li>
+                    <li>Superheavy Samurai Scarecrow</li>
+                    <li>Supreme King Dragon Starving Venom</li>
+                    <li>Tearlaments Kitkallos</li>
+                    <li>Tempest Magician</li>
+                    <li>The Tyrant Neptune</li>
+                    <li>Topologic Gumblar Dragon</li>
+                    <li>True King of All Calamities</li>
+                    <li>Union Carrier</li>
+                    <li>Victory Dragon</li>
+                    <li>Wind-Up Hunter</li>
+                    <li>Zoodiac Broadbull</li>
+                    <!-- Spells -->
+                    <li>Butterfly Dagger - Elma</li>
+                    <li>Card of Safe Return</li>
+                    <li>Cold Wave</li>
+                    <li>Confiscation</li>
+                    <li>Delinquent Duo</li>
+                    <li>Dimension Fusion</li>
+                    <li>Giant Trunade</li>
+                    <li>Graceful Charity</li>
+                    <li>Heavy Storm</li>
+                    <li>Kaiser Colosseum</li>
+                    <li>Last Will</li>
+                    <li>Mass Driver</li>
+                    <li>Mystic Mine</li>
+                    <li>Original Sinful Spoils - Snake-Eye</li>
+                    <li>Painful Choice</li>
+                    <li>Pot of Greed</li>
+                    <li>Smoke Grenade of the Thief</li>
+                    <li>Soul Charge</li>
+                    <li>The Forceful Sentry</li>
+                    <!-- Traps -->
+                    <li>Appointer of the Red Lotus</li>
+                    <li>Branded Expulsion</li>
+                    <li>Dimensional Barrier</li>
+                    <li>Harpie's Feather Storm</li>
+                    <li>Imperial Order</li>
+                    <li>Last Turn</li>
+                    <li>Red Reboot</li>
+                    <li>Return from the Different Dimension</li>
+                    <li>Royal Oppression</li>
+                    <li>Self-Destruct Button</li>
+                    <li>Sixth Sense</li>
+                    <li>Summon Limit</li>
+                    <li>Trap Dustshoot</li>
+                    <li>Ultimate Offering</li>
+                    <li>Vanity's Emptiness</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ==================== LIMITED ==================== -->
+        <section class="limited">
+            <h2>⚠️ Limited <small style="font-size:0.7em;opacity:0.7">(1 копия)</small></h2>
+            <div class="card-list">
+                <ul>
+                    <!-- Monsters -->
+                    <li>Ame no Habakiri no Mitsurugi</li>
+                    <li>Astrograph Sorcerer</li>
+                    <li>Bystial Druiswurm</li>
+                    <li>Bystial Magnamhut</li>
+                    <li>Cupsy☆Yummy</li>
+                    <li>Cupsy★Yummy Way</li>
+                    <li>Daigusto Emeral</li>
+                    <li>Dracotail Mululu</li>
+                    <li>Elfnote Tinia</li>
+                    <li>Exodia the Forbidden One</li>
+                    <li>Ext Ryzeal</li>
+                    <li>Fairy Tail - Snow</li>
+                    <li>Fiendsmith's Lacrima</li>
+                    <li>Gem-Knight Master Diamond</li>
+                    <li>K9-66a Jokul</li>
+                    <li>Keldo the Sacred Protector</li>
+                    <li>Left Arm of the Forbidden One</li>
+                    <li>Left Leg of the Forbidden One</li>
+                    <li>Linkuriboh</li>
+                    <li>Maliss &lt;P&gt; Dormouse</li>
+                    <li>Maliss &lt;P&gt; White Rabbit</li>
+                    <li>Mathmech Circular</li>
+                    <li>Miscellaneousaurus</li>
+                    <li>Mudora the Sword Oracle</li>
+                    <li>Number 40: Gimmick Puppet of Strings</li>
+                    <li>Number C40: Gimmick Puppet of Dark Strings</li>
+                    <li>Phantom of Yubel</li>
+                    <li>PSY-Framegear Gamma</li>
+                    <li>Right Arm of the Forbidden One</li>
+                    <li>Right Leg of the Forbidden One</li>
+                    <li>Ryzeal Detonator</li>
+                    <li>Striker Dragon</li>
+                    <li>Substitoad</li>
+                    <li>Summon Sorceress</li>
+                    <li>Sunavalon Dryas</li>
+                    <li>Sunvine Healer</li>
+                    <li>T.G. Hyper Librarian</li>
+                    <li>Tearlaments Havnis</li>
+                    <li>Tearlaments Merrli</li>
+                    <li>Tearlaments Scheiren</li>
+                    <li>Tenpai Dragon Chundra</li>
+                    <li>Vanquish Soul Hollie Sue</li>
+                    <li>Yummy★Snatchy</li>
+                    <li>Zoodiac Ratpier</li>
+                    <!-- Spells -->
+                    <li>"A Case for K9"</li>
+                    <li>Bonfire</li>
+                    <li>Branded Fusion</li>
+                    <li>Brilliant Fusion</li>
+                    <li>Called by the Grave</li>
+                    <li>Card Destruction</li>
+                    <li>Card of Demise</li>
+                    <li>Chain Strike</li>
+                    <li>Chaos Space</li>
+                    <li>Chicken Game</li>
+                    <li>Crossout Designator</li>
+                    <li>Divine Wind of Mist Valley</li>
+                    <li>Final Countdown</li>
+                    <li>Foolish Burial</li>
+                    <li>Gateway of the Six</li>
+                    <li>Gold Sarcophagus</li>
+                    <li>Harpie's Feather Duster</li>
+                    <li>Infernity Launcher</li>
+                    <li>Instant Fusion</li>
+                    <li>Into the Void</li>
+                    <li>Ketu Dracotail</li>
+                    <li>Magical Mid-Breaker Field</li>
+                    <li>Monster Gate</li>
+                    <li>Monster Reborn</li>
+                    <li>Obedience Schooled</li>
+                    <li>One Day of Peace</li>
+                    <li>One for One</li>
+                    <li>Pot of Prosperity</li>
+                    <li>Prohibited Power Patron Portal - Terminus</li>
+                    <li>Radiant Typhoon Chant</li>
+                    <li>Rahu Dracotail</li>
+                    <li>Reasoning</li>
+                    <li>Reinforcement of the Army</li>
+                    <li>Sangen Kaimen</li>
+                    <li>Sangen Summoning</li>
+                    <li>Sekka's Light</li>
+                    <li>Set Rotation</li>
+                    <li>Sky Striker Mecha - Hornet Drones</li>
+                    <li>Slash Draw</li>
+                    <li>Synchro Overtake</li>
+                    <li>Terraforming</li>
+                    <li>That Grass Looks Greener</li>
+                    <li>Triple Tactics Talent</li>
+                    <!-- Traps -->
+                    <li>Anti-Spell Fragrance</li>
+                    <li>Gozen Match</li>
+                    <li>Magical Explosion</li>
+                    <li>Naturia Sacred Tree</li>
+                    <li>Rivalry of Warlords</li>
+                    <li>Skill Drain</li>
+                    <li>Solemn Judgment</li>
+                    <li>There Can Be Only One</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ==================== SEMI-LIMITED ==================== -->
+        <section class="semi-limited">
+            <h2>📌 Semi-Limited <small style="font-size:0.7em;opacity:0.7">(2 копии)</small></h2>
+            <div class="card-list">
+                <ul>
+                    <li>Branded in High Spirits</li>
+                    <li>Dracotail Arthalion</li>
+                    <li>Dracotail Lukias</li>
+                    <li>Droll &amp; Lock Bird</li>
+                    <li>Ice Ryzeal</li>
+                    <li>Maliss in Underground</li>
+                    <li>Purrely Sleepy Memory</li>
+                    <li>Sword Ryzeal</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

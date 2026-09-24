@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Конструктор рапортов — Yu-Gi-Oh!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            line-height: 1.45;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-bottom: 3px solid #c9a227;
+            padding: 0.8rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        header h1 { font-size: 1.15rem; color: #c9a227; }
+        nav a {
+            color: #e6edf3;
+            text-decoration: none;
+            margin-left: 0.8rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.35rem 0.6rem;
+            /*border-radius: 4px;*/
+        }
+        nav a:hover, nav a.active { background: #c9a227; color: #0d1117; }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .type-switch {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+        .type-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #30363d;
+            background: #161b22;
+            color: #e6edf3;
+            /*border-radius: 8px;*/
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .type-btn.active-ban {
+            border-color: #f85149;
+            background: #3d1515;
+            color: #f85149;
+        }
+        .type-btn.active-unban {
+            border-color: #3fb950;
+            background: #14301a;
+            color: #3fb950;
+        }
+
+        .form-section {
+            background: #161b22;
+            border: 1px solid #30363d;
+            /*border-radius: 10px;*/
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        .form-section h3 {
+            font-size: 0.85rem;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+        }
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: #c9d1d9;
+            margin-bottom: 0.3rem;
+            margin-top: 0.7rem;
+        }
+        label:first-of-type { margin-top: 0; }
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 0.7rem 0.8rem;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            /*border-radius: 6px;*/
+            color: #e6edf3;
+            font-size: 1rem;
+            -webkit-appearance: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #c9a227;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        .hint {
+            font-size: 0.75rem;
+            color: #8b949e;
+            margin-top: 0.25rem;
+        }
+
+        .preview-wrap {
+            margin-top: 1.5rem;
+        }
+        .preview-wrap h3 {
+            font-size: 0.9rem;
+            color: #c9a227;
+            margin-bottom: 0.6rem;
+        }
+        #preview {
+            background: #f5f0e6;
+            color: #1a1a1a;
+            padding: 1.5rem 1.2rem;
+            /*border-radius: 4px;*/
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 14px;
+            line-height: 1.5;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            max-width: 100%;
+            overflow-x: auto;
+        }
+        #preview .header-line {
+            text-align: center;
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        #preview .doc-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 12px 0 16px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #1a1a1a;
+            padding-bottom: 6px;
+        }
+        #preview .field {
+            margin-bottom: 8px;
+        }
+        #preview .field b {
+            font-weight: bold;
+        }
+        #preview .body-text {
+            margin: 12px 0;
+            text-align: justify;
+            white-space: pre-wrap;
+        }
+        #preview .signature {
+            margin-top: 20px;
+            text-align: right;
+        }
+        #preview .stamp {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 11px;
+            color: #555;
+            border-top: 1px dashed #999;
+            padding-top: 8px;
+        }
+
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #161b22;
+            border-top: 1px solid #30363d;
+            padding: 0.7rem 1rem;
+            display: flex;
+            gap: 0.6rem;
+            z-index: 90;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.3);
+        }
+        .btn {
+            flex: 1;
+            padding: 0.85rem;
+            border: none;
+            /*border-radius: 8px;*/
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn:active { opacity: 0.8; }
+        .btn-primary {
+            background: #c9a227;
+            color: #0d1117;
+        }
+        .btn-secondary {
+            background: #30363d;
+            color: #e6edf3;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+            .form-col { grid-column: 1; }
+            .preview-wrap {
+                grid-column: 2;
+                margin-top: 0;
+                position: sticky;
+                top: 70px;
+                align-self: start;
+            }
+            .bottom-bar {
+                position: static;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                margin-top: 1rem;
+            }
+            body { padding-bottom: 0; }
+            #preview { font-size: 15px; padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Yu-Gi-Oh! PTCG</h1>
+        <nav>
+            <a href="main.html">Banlist</a>
+            <a href="page2.html" class="active">Рапорт</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="form-col">
+            <div class="type-switch">
+                <button class="type-btn active-ban" id="btnBan" onclick="setType('ban')">🚨 Рапорт<br><small>забанить</small></button>
+                <button class="type-btn" id="btnUnban" onclick="setType('unban')">📋 Характеристика<br><small>разбанить / разлимитить</small></button>
+            </div>
+
+            <div class="form-section">
+                <h3>Данные гражданина</h3>
+                <label for="cardName">Гражданин (название карты) *</label>
+                <input type="text" id="cardName" placeholder='например: Maxx "C"' oninput="updatePreview()">
+
+                <label for="partners">Проживающий с (необязательно)</label>
+                <input type="text" id="partners" placeholder="карты, которые делают его имбой" oninput="updatePreview()">
+                <div class="hint">Укажите энэйблеры через запятую</div>
+
+                <label for="currentStatus">Текущий статус</label>
+                <select id="currentStatus" onchange="updatePreview()">
+                    <option value="Unlimited">Unlimited (3 копии)</option>
+                    <option value="Semi-Limited">Semi-Limited (2 копии)</option>
+                    <option value="Limited">Limited (1 копия)</option>
+                    <option value="Forbidden">Forbidden (0 копий)</option>
+                </select>
+
+                <label for="desiredStatus">Желаемый статус *</label>
+                <select id="desiredStatus" onchange="updatePreview()">
+                    <option value="Forbidden">Forbidden (забанить)</option>
+                    <option value="Limited">Limited</option>
+                    <option value="Semi-Limited">Semi-Limited</option>
+                    <option value="Unlimited">Unlimited (разбанить)</option>
+                </select>
+            </div>
+
+            <div class="form-section">
+                <h3>Содержание</h3>
+                <label for="reason">Основание / Описание деятельности *</label>
+                <textarea id="reason" placeholder="Почему карта должна быть забанена / разбанена. Опиши комбо, winrate, влияние на формат..." oninput="updatePreview()"></textarea>
+
+                <label for="evidence">Доказательства / Аргументы</label>
+                <textarea id="evidence" placeholder="Статистика, примеры колод, турнирные результаты, аналогии..." oninput="updatePreview()"></textarea>
+            </div>
+
+            <div class="form-section">
+                <h3>Составитель</h3>
+                <label for="author">ФИО / Ник</label>
+                <input type="text" id="author" placeholder="Анонимный дуэлянт" oninput="updatePreview()">
+
+                <label for="docDate">Дата</label>
+                <input type="text" id="docDate" oninput="updatePreview()">
+            </div>
+
+            <div class="bottom-bar">
+                <button class="btn btn-secondary" onclick="clearForm()">Очистить</button>
+                <button class="btn btn-primary" id="exportBtn" onclick="exportPDF()">📄 Скачать PDF</button>
+            </div>
+        </div>
+
+        <div class="preview-wrap">
+            <h3>Предпросмотр документа</h3>
+            <div id="preview"></div>
+        </div>
+    </div>
+
+    <script>
+        let docType = 'ban';
+
+        document.getElementById('docDate').value = new Date().toLocaleDateString('ru-RU');
+
+        function setType(type) {
+            docType = type;
+            const btnBan = document.getElementById('btnBan');
+            const btnUnban = document.getElementById('btnUnban');
+            if (type === 'ban') {
+                btnBan.classList.add('active-ban');
+                btnUnban.classList.remove('active-unban');
+                document.getElementById('desiredStatus').value = 'Forbidden';
+            } else {
+                btnUnban.classList.add('active-unban');
+                btnBan.classList.remove('active-ban');
+                document.getElementById('desiredStatus').value = 'Unlimited';
+            }
+            updatePreview();
+        }
+
+        function updatePreview() {
+            const card = document.getElementById('cardName').value.trim() || '________________';
+            const partners = document.getElementById('partners').value.trim();
+            const current = document.getElementById('currentStatus').value;
+            const desired = document.getElementById('desiredStatus').value;
+            const reason = document.getElementById('reason').value.trim() || '—';
+            const evidence = document.getElementById('evidence').value.trim();
+            const author = document.getElementById('author').value.trim() || 'Анонимный дуэлянт';
+            const date = document.getElementById('docDate').value.trim() || new Date().toLocaleDateString('ru-RU');
+
+            const isBan = docType === 'ban';
+            const title = isBan ? 'РАПОРТ' : 'ХАРАКТЕРИСТИКА';
+            const headerOrg = isBan
+                ? 'Министерство Контроля Мета-Формата<br>Отдел запрещённых и ограниченных карт'
+                : 'Комиссия по реабилитации карт<br>Департамент возвращения в формат';
+
+            let partnersLine = '';
+            if (partners) {
+                partnersLine = '<div class="field"><b>Проживающий с:</b> ' + escapeHtml(partners) + '</div>';
+            }
+
+            let evidenceBlock = '';
+            if (evidence) {
+                evidenceBlock = '<div class="field" style="margin-top:12px"><b>Доказательства / Аргументы:</b></div><div class="body-text">' + escapeHtml(evidence) + '</div>';
+            }
+
+            const actionText = isBan
+                ? 'На основании вышеизложенного прошу присвоить гражданину статус <b>' + desired + '</b>.'
+                : 'На основании вышеизложенного прошу перевести гражданина в статус <b>' + desired + '</b>.';
+
+            document.getElementById('preview').innerHTML =
+                '<div class="header-line">' + headerOrg + '</div>' +
+                '<div class="doc-title">' + title + '</div>' +
+                '<div class="field"><b>На гражданина:</b> ' + escapeHtml(card) + '</div>' +
+                partnersLine +
+                '<div class="field"><b>Текущий статус:</b> ' + current + '</div>' +
+                '<div class="field"><b>Желаемый статус:</b> ' + desired + '</div>' +
+                '<div class="field" style="margin-top:14px"><b>Основание / Описание деятельности:</b></div>' +
+                '<div class="body-text">' + escapeHtml(reason) + '</div>' +
+                evidenceBlock +
+                '<div class="body-text" style="margin-top:14px">' + actionText + '</div>' +
+                '<div class="signature">' +
+                    '<div>Составил: ' + escapeHtml(author) + '</div>' +
+                    '<div>' + escapeHtml(date) + '</div>' +
+                '</div>' +
+                '<div class="stamp">' +
+                    'Документ сформирован конструктором рапортов Yu-Gi-Oh! PTCG<br>' +
+                    'Не является официальным обращением в Konami' +
+                '</div>';
+        }
+
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/\n/g, '<br>');
+        }
+
+        function clearForm() {
+            document.getElementById('cardName').value = '';
+            document.getElementById('partners').value = '';
+            document.getElementById('reason').value = '';
+            document.getElementById('evidence').value = '';
+            document.getElementById('author').value = '';
+            document.getElementById('docDate').value = new Date().toLocaleDateString('ru-RU');
+            document.getElementById('currentStatus').value = 'Unlimited';
+            setType(docType);
+            updatePreview();
+        }
+
+        async function exportPDF() {
+            const card = document.getElementById('cardName').value.trim();
+            if (!card) {
+                alert('Укажите название карты (гражданина)');
+                return;
+            }
+            if (!document.getElementById('reason').value.trim()) {
+                alert('Заполните основание / описание деятельности');
+                return;
+            }
+
+            const btn = document.getElementById('exportBtn');
+            btn.disabled = true;
+            btn.textContent = 'Генерация...';
+
+            try {
+                const element = document.getElementById('preview');
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#f5f0e6',
+                    logging: false
+                });
+
+                const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                const margin = 12;
+                const imgWidth = pageWidth - margin * 2;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                let heightLeft = imgHeight;
+                let position = margin;
+
+                pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+                heightLeft -= (pageHeight - margin * 2);
+
+                while (heightLeft > 0) {
+                    position = margin - (imgHeight - heightLeft);
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+                    heightLeft -= (pageHeight - margin * 2);
+                }
+
+                const safeName = card.replace(/[^\wа-яА-ЯёЁ\s\-]/gi, '').trim().slice(0, 40) || 'report';
+                const prefix = docType === 'ban' ? 'Raport' : 'Harakteristika';
+                pdf.save(prefix + '_' + safeName + '.pdf');
+            } catch (err) {
+                console.error(err);
+                alert('Ошибка при создании PDF. Попробуйте ещё раз.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '📄 Скачать PDF';
+            }
+        }
+
+        updatePreview();
+    </script>
+</body>
+</html>
